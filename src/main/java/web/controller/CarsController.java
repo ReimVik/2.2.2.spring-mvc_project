@@ -7,29 +7,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import web.dao.CarDao;
+import web.Service.CarService;
 
 @Controller
 @RequestMapping("/cars")
 public class CarsController {
 
-    private final CarDao carDAO;
+    private final CarService carService;
 
-    @Autowired
-    public CarsController(CarDao carDAO) {
-        this.carDAO = carDAO;
+
+    public CarsController(CarService carService) {
+        this.carService = carService;
     }
 
     @GetMapping()
     public String printCars(@RequestParam(value = "count", defaultValue = "5") int count, ModelMap model) {
-        model.addAttribute("cars", carDAO.showSameCars(count));
+        model.addAttribute("cars", carService.showSameCars(count));
         return "cars";
     }
-
-    /*@GetMapping("/{num}")
-    public String printSameCars(@PathVariable("num") int num, ModelMap model) {
-        //получим необходимое кол-во машин
-        model.addAttribute("car", carDAO.showSameCars(num));
-        return "cars";
-    }*/
 }
